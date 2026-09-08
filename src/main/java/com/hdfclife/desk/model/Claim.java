@@ -1,8 +1,5 @@
 package com.hdfclife.desk.model;
 
-import jakarta.persistence.Entity;
-
-@Entity
 public class Claim {
 
     private String policyNo;

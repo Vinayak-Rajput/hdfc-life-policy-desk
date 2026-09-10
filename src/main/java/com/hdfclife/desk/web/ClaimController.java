@@ -2,11 +2,11 @@ package com.hdfclife.desk.web;
 
 import com.hdfclife.desk.model.Claim;
 import com.hdfclife.desk.service.ClaimService;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/claims")
@@ -19,9 +19,15 @@ public class ClaimController {
 
     @PostMapping
     public ResponseEntity<Claim> createClaim(@RequestBody Claim claim) {
+        Claim createdClaim = claimService.createClaim(claim);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Location", "/api/claims/" + createdClaim.getClaimNo());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(claim);
+                .headers(httpHeaders)
+                .body(createdClaim);
     }
 
     @GetMapping("/{claimNo}")

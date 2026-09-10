@@ -3,6 +3,7 @@ package com.hdfclife.desk.web;
 import com.hdfclife.desk.model.Claim;
 import com.hdfclife.desk.model.Policy;
 import com.hdfclife.desk.service.PolicyService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,9 +51,15 @@ public class PolicyController {
 
     @PostMapping
     public ResponseEntity<Policy> createPolicy(@RequestBody Policy policy) {
+        Policy createdPolicy = policyService.createPolicy(policy);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Location", "/api/policies/" + createdPolicy.getPolicyNo());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(policyService.createPolicy(policy));
+                .headers(httpHeaders)
+                .body(createdPolicy);
     }
 
     @PutMapping("/{policyNo}")

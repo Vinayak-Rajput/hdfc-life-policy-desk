@@ -10,19 +10,20 @@ import java.util.stream.Collectors;
 @Repository
 public class InMemoryPolicyStore implements PolicyStore {
 
-    private Map<String, Policy> policies = new HashMap<>();
-    private List<String> insertionOrder = new ArrayList<>();
+    private final Map<String, Policy> policies = new HashMap<>();
+    private final List<String> insertionOrder = new ArrayList<>();
 
-    private Map<String, Claim> claims = new HashMap<>();
-    private List<Claim> claimOrder = new ArrayList<>();
+    private final Map<String, Claim> claims = new HashMap<>();
+    private final List<Claim> claimOrder = new ArrayList<>();
 
     @Override
-    public void add(Policy policy) {
+    public Policy add(Policy policy) {
 
         if(!policies.containsKey(policy.getPolicyNo())) {
             insertionOrder.add(policy.getPolicyNo());
         }
         policies.put(policy.getPolicyNo(), policy);
+        return policy;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class InMemoryPolicyStore implements PolicyStore {
     }
 
     @Override
-    public Optional<Policy> findByPolicyNo(String policyNo) {
+    public Policy findByPolicyNo(String policyNo) {
         return Optional.ofNullable(policies.get(policyNo));
     }
 
@@ -66,14 +67,16 @@ public class InMemoryPolicyStore implements PolicyStore {
     }
 
     @Override
-    public void addClaim(Claim claim) {
+    public Claim addClaim(Claim claim) {
         claims.put(claim.getPolicyNo(),claim);
         claimOrder.add(claim);
+
+        return claim;
     }
 
     @Override
-    public Optional<Claim> findClaimByClaimNo(String claimNo) {
-        return Optional.ofNullable(claims.get(claimNo));
+    public Claim findClaimByClaimNo(String claimNo) {
+        return claims.get(claimNo);
     }
 
     @Override

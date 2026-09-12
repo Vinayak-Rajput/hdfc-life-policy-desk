@@ -69,32 +69,18 @@ public class PolicyService {
 
     public List<Policy> getPoliciesByStatus(String status) {
 
-        List<Policy> requiredPolicies = new ArrayList<>();
-
-        for(Policy policy : policyStore.findAll()) {
-
-            if(policy.getStatus().equals(status)) {
-
-                requiredPolicies.add(policy);
-            }
-        }
-
-        return requiredPolicies;
+        return policyStore.findAll()
+                .stream()
+                .filter(p -> p.getStatus().equals(status))
+                .toList();
     }
 
     public List<Policy> getPoliciesByType(String type) {
 
-        List<Policy> requiredPolicies = new ArrayList<>();
-
-        for(Policy policy : policyStore.findAll()) {
-
-            if(policy.getType().equals(type)) {
-
-                requiredPolicies.add(policy);
-            }
-        }
-
-        return requiredPolicies;
+        return policyStore.findAll()
+                .stream()
+                .filter(p -> p.getType().equals(type))
+                .toList();
     }
 
     public List<Policy> getPolicies() {

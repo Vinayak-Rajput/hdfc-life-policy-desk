@@ -1,5 +1,6 @@
 package com.hdfclife.desk.store;
 
+import com.hdfclife.desk.exception.PolicyNotFoundException;
 import com.hdfclife.desk.model.Claim;
 import com.hdfclife.desk.model.Policy;
 import org.springframework.stereotype.Repository;
@@ -13,18 +14,22 @@ public class InMemoryPolicyStore implements PolicyStore {
     private final Map<String, Policy> policies = new HashMap<>();
     private final List<String> insertionOrder = new ArrayList<>();
 
-    private final Map<String, Claim> claims = new HashMap<>();
+    private final Map<String, List<Claim>> claims = new HashMap<>();
     private final List<Claim> claimOrder = new ArrayList<>();
+    private int claimCounter = 1;
 
     @Override
     public Policy add(Policy policy) {
 
-        if(!policies.containsKey(policy.getPolicyNo())) {
+        String policyNo = policy.getPolicyNo();
 
-            insertionOrder.add(policy.getPolicyNo());
+        if(policies.containsKey(policyNo)) {
+
+            return null;
         }
 
-        policies.put(policy.getPolicyNo(), policy);
+        insertionOrder.add(policyNo);
+        policies.put(policyNo, policy);
 
         return policy;
     }
@@ -74,7 +79,19 @@ public class InMemoryPolicyStore implements PolicyStore {
 
     @Override
     public Claim addClaim(Claim claim) {
-        claims.put(claim.getPolicyNo(),claim);
+        String policyNo = claim.getPolicyNo();
+
+        if(!policies.containsKey(policyNo)) {
+
+            return null;
+        }
+
+        String claimNo = String.format("CLM-%02d",claimCounter++);
+
+        claim.setClaimNo(claimNo);
+
+        claims.computeIfAbsent(policyNo, k -> new ArrayList<>()).add(claim);
+
         claimOrder.add(claim);
 
         return claim;
@@ -82,23 +99,30 @@ public class InMemoryPolicyStore implements PolicyStore {
 
     @Override
     public List<Claim> findAllClaims() {
-        return new ArrayList<>(claims.values());
+        return claimOrder;
     }
 
     @Override
     public Claim findClaimByClaimNo(String claimNo) {
-        return claims.get(claimNo);
+
+        for(Claim claim : claimOrder) {
+
+            if(claim.getClaimNo().equals(claimNo)) {
+
+                return claim;
+            }
+        }
+        return null;
     }
 
     @Override
     public List<Claim> findClaimsByPolicyNo(String policyNo) {
-        return claimOrder.stream()
-                .filter(claim -> claim.getPolicyNo().equals(policyNo))
-                .collect(Collectors.toList());
+
+        return claims.get(policyNo);
     }
 
     @Override
     public int claimCount() {
-        return claims.size();
+        return claimOrder.size();
     }
 }

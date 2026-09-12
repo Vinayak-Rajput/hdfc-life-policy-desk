@@ -24,10 +24,29 @@ public class PolicyController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Policy>> getPolicies() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(policyService.getPolicies());
+    public ResponseEntity<List<Policy>> getPolicies(
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String type ) {
+
+            if (status != null && type != null) {
+
+                return ResponseEntity.ok(
+                        policyService.getPolicies().stream()
+                                .filter(p -> p.getStatus().equals(status))
+                                .filter(p -> p.getType().equals(type))
+                                .toList()
+                );
+            }
+
+            if (status != null) {
+                return ResponseEntity.ok(policyService.getPoliciesByStatus(status));
+            }
+
+            if (type != null) {
+                return ResponseEntity.ok(policyService.getPoliciesByType(type));
+            }
+
+            return ResponseEntity.ok(policyService.getPolicies());
     }
 
     @GetMapping("/{policyNo}")
@@ -35,20 +54,6 @@ public class PolicyController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(policyService.getPolicyByNo(policyNo));
-    }
-
-    @GetMapping("?status=Active")
-    public ResponseEntity<List<Policy>> getPoliciesByStatus(@RequestParam("status") String status) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(policyService.getPoliciesByStatus(status));
-    }
-
-    @GetMapping("?type=TERM")
-    public ResponseEntity<List<Policy>> getPoliciesByType(@RequestParam("type") String type) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(policyService.getPoliciesByType(type));
     }
 
     @PostMapping
@@ -74,7 +79,7 @@ public class PolicyController {
     @DeleteMapping("/{policyNo}")
     public ResponseEntity<Policy> deletePolicy(@PathVariable("policyNo") String policyNo) {
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.NO_CONTENT)
                 .body(policyService.deletePolicy(policyNo));
     }
 

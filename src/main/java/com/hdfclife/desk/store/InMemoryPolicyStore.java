@@ -20,9 +20,12 @@ public class InMemoryPolicyStore implements PolicyStore {
     public Policy add(Policy policy) {
 
         if(!policies.containsKey(policy.getPolicyNo())) {
+
             insertionOrder.add(policy.getPolicyNo());
         }
+
         policies.put(policy.getPolicyNo(), policy);
+
         return policy;
     }
 
@@ -39,26 +42,29 @@ public class InMemoryPolicyStore implements PolicyStore {
 
     @Override
     public Policy findByPolicyNo(String policyNo) {
-        return Optional.ofNullable(policies.get(policyNo));
+        return policies.get(policyNo);
     }
 
     @Override
-    public boolean update(String policyNo, Policy policy) {
+    public Policy update(String policyNo, Policy policy) {
         if(!policies.containsKey(policy.getPolicyNo())) {
-            return false;
+            return null;
         }
         policies.put(policy.getPolicyNo(), policy);
-        return true;
+        return policy;
     }
 
     @Override
-    public boolean delete(String policyNo) {
+    public Policy delete(String policyNo) {
+
         if(policies.containsKey(policyNo)) {
-            policies.remove(policyNo);
+
+            Policy deletedPolicy = policies.remove(policyNo);
             insertionOrder.remove(policyNo);
-            return true;
+
+            return deletedPolicy;
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -72,6 +78,11 @@ public class InMemoryPolicyStore implements PolicyStore {
         claimOrder.add(claim);
 
         return claim;
+    }
+
+    @Override
+    public List<Claim> findAllClaims() {
+        return new ArrayList<>(claims.values());
     }
 
     @Override

@@ -50,6 +50,7 @@ public class DataSeeder implements CommandLineRunner {
                 .toList().size());
 
         System.out.println("9. Simple class name of the injected PolicyStore -> " + policyStore.getClass().getSimpleName());
+        System.out.println("10. Lifecycle line (from @PostConstruct, may appear before the runner) -> ");
     }
 
     private void seedPolicies() {

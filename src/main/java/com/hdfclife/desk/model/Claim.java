@@ -2,7 +2,7 @@ package com.hdfclife.desk.model;
 
 public class Claim {
 
-    private final String claimNo;
+    private String claimNo;
     private final String policyNo;
     private final Double claimAmount;
     private final Urgency urgency;
@@ -36,6 +36,9 @@ public class Claim {
         return status;
     }
 
+    public void setClaimNo(String claimNo) {
+        this.claimNo = claimNo;
+    }
     public void setStatus(String status) {
         this.status = status;
     }

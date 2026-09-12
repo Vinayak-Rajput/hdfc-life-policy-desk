@@ -1,6 +1,6 @@
 package com.hdfclife.desk.exception;
 
-public class DuplicatePolicyException extends RuntimeException {
+public class DuplicatePolicyException extends DeskException {
     public DuplicatePolicyException(String message) {
         super(message);
     }

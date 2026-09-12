@@ -77,7 +77,7 @@ http://localhost:8080/v3/api-docs
 ---
 ## Entity - Relationship List
 
-1. **customers**
+**customers**
 
 | Column         | Rules                 |
 | -------------- | --------------------- |
@@ -88,7 +88,7 @@ http://localhost:8080/v3/api-docs
 **Description:**
 Holds unique customers. Policies reference customers through customer_id.
 
-2. **policies**
+**policies**
 
 | Column            | Rules                                              |
 | ----------------- | -------------------------------------------------- |
@@ -102,7 +102,7 @@ Holds unique customers. Policies reference customers through customer_id.
 **Relationships:**
 Policy → Customer = Many-to-One
 
-3. **claims**
+**claims**
 
 | Column         | Rules                                                    |
 | -------------- | -------------------------------------------------------- |
@@ -116,7 +116,7 @@ Policy → Customer = Many-to-One
 **Relationships:**
 Claim → Policy = Many-to-One
 
-4. **riders**
+**riders**
 
    | Column   | Rules                 |
    | -------- | --------------------- |
@@ -127,7 +127,7 @@ Claim → Policy = Many-to-One
 **Description:**
 Reference table for insurance rider types.
 
-5. **policy_riders** (Junction Table)
+**policy_riders** (Junction Table)
 
 | Column          | Rules                               |
 | --------------- | ----------------------------------- |

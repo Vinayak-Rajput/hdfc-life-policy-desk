@@ -30,6 +30,8 @@ public class ClaimService {
             throw new InvalidClaimException("Claim amount invalid");
         }
 
+        claim.setStatus("SUBMITTED");
+
         Claim createdClaim = policyStore.addClaim(claim);
 
         if(createdClaim == null) {

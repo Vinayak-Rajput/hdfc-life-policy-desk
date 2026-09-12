@@ -81,6 +81,7 @@ http://localhost:8080/v3/api-docs
 
 **Description:** Holds unique customers. Policies reference customers through customer_id.
 
+
 | Column         | Rules                 |
 | -------------- | --------------------- |
 | **id**         | Primary key, identity |
@@ -91,6 +92,8 @@ http://localhost:8080/v3/api-docs
 **policies**
 
 **Relationships:** Policy → Customer = Many-to-One
+
+
 
 | Column            | Rules                                              |
 | ----------------- | -------------------------------------------------- |
@@ -105,6 +108,8 @@ http://localhost:8080/v3/api-docs
 **claims**
 **Relationships:** Claim → Policy = Many-to-One
 
+
+
 | Column         | Rules                                                    |
 | -------------- | -------------------------------------------------------- |
 | **id**         | Primary key, identity                                    |
@@ -118,6 +123,8 @@ http://localhost:8080/v3/api-docs
 **riders**
 **Description:** Reference table for insurance rider types.
 
+
+
    | Column   | Rules                 |
    | -------- | --------------------- |
    | **id**   | Primary key, identity |
@@ -128,6 +135,7 @@ http://localhost:8080/v3/api-docs
 **policy_riders** (Junction Table)
 **Relationships:**
 Policy ↔ Rider = Many-to-Many
+
 
 
 | Column          | Rules                               |

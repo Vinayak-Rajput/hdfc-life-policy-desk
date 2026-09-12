@@ -2,10 +2,10 @@ package com.hdfclife.desk.model;
 
 public class Claim {
 
-    private String claimNo;
-    private String policyNo;
-    private Double claimAmount;
-    private Urgency urgency;
+    private final String claimNo;
+    private final String policyNo;
+    private final Double claimAmount;
+    private final Urgency urgency;
     private String status;
 
     public Claim(String claimNo,String policyNo, Double claimAmount, Urgency urgency, String status) {
@@ -20,32 +20,16 @@ public class Claim {
         return claimNo;
     }
 
-    public void setClaimNo(String claimNo) {
-        this.claimNo = claimNo;
-    }
-
     public String getPolicyNo() {
         return policyNo;
-    }
-
-    public void setPolicyNo(String policyNo) {
-        this.policyNo = policyNo;
     }
 
     public Double getClaimAmount() {
         return claimAmount;
     }
 
-    public void setClaimAmount(Double claimAmount) {
-        this.claimAmount = claimAmount;
-    }
-
     public Urgency getUrgency() {
         return urgency;
-    }
-
-    public void setUrgency(Urgency urgency) {
-        this.urgency = urgency;
     }
 
     public String getStatus() {

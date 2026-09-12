@@ -79,16 +79,18 @@ http://localhost:8080/v3/api-docs
 
 **customers**
 
+**Description:** Holds unique customers. Policies reference customers through customer_id.
+
 | Column         | Rules                 |
 | -------------- | --------------------- |
 | **id**         | Primary key, identity |
 | **full\_name** | NOT NULL, UNIQUE      |
 | **email**      | NOT NULL, UNIQUE      |
 
-**Description:**
-Holds unique customers. Policies reference customers through customer_id.
 
 **policies**
+
+**Relationships:** Policy → Customer = Many-to-One
 
 | Column            | Rules                                              |
 | ----------------- | -------------------------------------------------- |
@@ -99,10 +101,9 @@ Holds unique customers. Policies reference customers through customer_id.
 | **base\_premium** | NOT NULL, CHECK > 0                                |
 | **status**        | NOT NULL, CHECK in (`Active`, `Lapsed`, `Pending`) |
 
-**Relationships:**
-Policy → Customer = Many-to-One
 
 **claims**
+**Relationships:** Claim → Policy = Many-to-One
 
 | Column         | Rules                                                    |
 | -------------- | -------------------------------------------------------- |
@@ -113,21 +114,21 @@ Policy → Customer = Many-to-One
 | **urgency**    | NOT NULL, CHECK in (`HIGH`, `MEDIUM`, `LOW`)             |
 | **status**     | NOT NULL, CHECK in (`SUBMITTED`, `APPROVED`, `REJECTED`) |
 
-**Relationships:**
-Claim → Policy = Many-to-One
 
 **riders**
+**Description:** Reference table for insurance rider types.
 
    | Column   | Rules                 |
    | -------- | --------------------- |
    | **id**   | Primary key, identity |
    | **code** | NOT NULL, UNIQUE      |
    | **name** | NOT NULL              |
-
-**Description:**
-Reference table for insurance rider types.
+   
 
 **policy_riders** (Junction Table)
+**Relationships:**
+Policy ↔ Rider = Many-to-Many
+
 
 | Column          | Rules                               |
 | --------------- | ----------------------------------- |
@@ -135,8 +136,7 @@ Reference table for insurance rider types.
 | **rider\_id**   | Foreign key → **riders(id)**        |
 | **PRIMARY KEY** | Composite (`policy_id`, `rider_id`) |
 
-**Relationships:**
-Policy ↔ Rider = Many-to-Many
+
 
 ---
 ## Choice of In-Memory and Postgres Databases

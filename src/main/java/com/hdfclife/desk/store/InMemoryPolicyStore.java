@@ -1,12 +1,10 @@
 package com.hdfclife.desk.store;
 
-import com.hdfclife.desk.exception.PolicyNotFoundException;
 import com.hdfclife.desk.model.Claim;
 import com.hdfclife.desk.model.Policy;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryPolicyStore implements PolicyStore {

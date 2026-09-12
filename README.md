@@ -49,6 +49,8 @@ mvn spring-boot:run -Dspring-boot.run.profiles=prod
 
 ## Swagger / OpenAPI
 
+![Swagger](https://github.com/Vinayak-Rajput/hdfc-life-policy-desk/blob/main/Swagger-UI.png)
+
 ### Swagger UI:
 ```
 http://localhost:8080/swagger-ui/index.html

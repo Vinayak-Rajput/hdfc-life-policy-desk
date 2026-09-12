@@ -2,13 +2,13 @@ package com.hdfclife.desk.web;
 
 import com.hdfclife.desk.model.Claim;
 import com.hdfclife.desk.model.Policy;
+import com.hdfclife.desk.service.ClaimService;
 import com.hdfclife.desk.service.PolicyService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,16 +16,18 @@ import java.util.List;
 public class PolicyController {
 
     PolicyService policyService;
+    ClaimService claimService;
 
-    public PolicyController(PolicyService policyService) {
+    public PolicyController(PolicyService policyService, ClaimService claimService) {
         this.policyService = policyService;
+        this.claimService = claimService;
     }
 
     @GetMapping
     public ResponseEntity<List<Policy>> getPolicies() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ArrayList<>());
+                .body(policyService.getPolicies());
     }
 
     @GetMapping("/{policyNo}")
@@ -63,10 +65,10 @@ public class PolicyController {
     }
 
     @PutMapping("/{policyNo}")
-    public ResponseEntity<Policy> updatePolicy(@PathVariable("policyNo") String policyNo) {
+    public ResponseEntity<Policy> updatePolicy(@PathVariable("policyNo") String policyNo, @RequestBody Policy policy) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(policyService.updatePolicy(policyNo));
+                .body(policyService.updatePolicy(policyNo, policy));
     }
 
     @DeleteMapping("/{policyNo}")
@@ -80,6 +82,6 @@ public class PolicyController {
     public ResponseEntity<List<Claim>> getClaimsByNo(@PathVariable("policyNo") String policyNo) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(policyService.getClaimsByPolicyNo(policyNo));
+                .body(claimService.getClaimsByPolicyNo(policyNo));
     }
 }
